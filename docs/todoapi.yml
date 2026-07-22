@@ -1,0 +1,105 @@
+openapi: 3.1.0
+
+info:
+  title: To-Do List API
+  description: A simple API to manage a to-do list
+  version: 1.0.0
+
+servers:
+  - url: https://localhost:8080/api/v1
+
+paths:
+  /todos:
+    get:
+      summary: Get all todos
+      operationId: getAllTodos
+      responses:
+        "200":
+          description: List of todos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Todo"
+
+    put:
+      summary: Create or update todos
+      operationId: putTodos
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Todo"
+      responses:
+        "200":
+          description: Todos created or updated
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Todo"
+
+  /todos/{id}:
+    get:
+      summary: Get todo by id
+      operationId: getTodoById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Todo identifier
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Todo found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+
+        "404":
+          description: Todo not found
+
+components:
+  schemas:
+    Todo:
+      type: object
+      required:
+        - id
+        - title
+        - description
+        - completed
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "d290f1ee-6c54-4b01-90e6-d701748f0851"
+
+        title:
+          type: string
+          example: "Learn Spring Boot"
+
+        description:
+          type: string
+          example: "Complete OpenAPI documentation"
+
+        completed:
+          type: boolean
+          example: false
+        createdAt:
+          type: string
+          format: date-time
+          example: "2026-07-22 16:59:00Z"
+        updatedAt:
+          type: string
+          format: date-time
+          example: "2026-07-22 16:59:00Z"
