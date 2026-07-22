@@ -1,7 +1,16 @@
 package com.example.todo.model;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
@@ -14,6 +23,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class Todo {
+
     @Id
     private UUID id;
 
@@ -23,14 +33,14 @@ public class Todo {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column(name ="is_completed", nullable = false)
+    @Column(name = "is_completed", nullable = false)
     private boolean completed;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;
 
     @Column(name = "updated_at", nullable = false)
-    private  OffsetDateTime updatedAt;
+    private OffsetDateTime updatedAt;
 
     @PrePersist
     protected void onCreate() {
@@ -41,9 +51,9 @@ public class Todo {
         createdAt = now;
         updatedAt = now;
     }
+
     @PreUpdate
     protected void onUpdate() {
         updatedAt = OffsetDateTime.now();
     }
-
 }
